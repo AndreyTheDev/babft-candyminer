@@ -140,6 +140,8 @@ local function WGCZKS_fake_script() -- co.main.lua
 		else
 			miningState = 0
 			btn.Text = "Start"
+			player.character:WaitForChild("Humanoid").walkspeed = 16
+			
 		end
 	end
 	
