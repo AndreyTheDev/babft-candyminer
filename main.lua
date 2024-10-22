@@ -1,3 +1,6 @@
+-- Gui to Lua
+-- Version: 3.2
+
 -- Instances:
 
 local co = Instance.new("ScreenGui")
@@ -80,12 +83,10 @@ UICorner_2.Parent = main
 local function WGCZKS_fake_script() -- co.main.lua 
 	local script = Instance.new('LocalScript', co)
 
-	-- <!-- Libs (services) --!>
 	local tween = game:GetService("TweenService")
 	local players = game:GetService("Players")
 	local runService = game:GetService("RunService")
 	
-	-- <!-- UI --!> --
 	local main = script.Parent.main
 	local btn = main.btn
 	local tit = main.title
@@ -102,6 +103,7 @@ local function WGCZKS_fake_script() -- co.main.lua
                 local character = player.Character or player.CharacterAdded:Wait()
                 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
                 humanoidRootPart.CFrame = doorInnerTorch.CFrame  
+				house.Name = "TrickOrVisitedHouse"  -- Меняем имя дома после посещения
             else
                 warn("DoorInnerTouch is not a valid part or doesn't exist!")
             end
@@ -110,7 +112,6 @@ local function WGCZKS_fake_script() -- co.main.lua
         end
     end
 
-	
 	function findAndTeleport()
 		local houses = workspace:FindFirstChild("Houses")
 		if houses then
@@ -140,18 +141,13 @@ local function WGCZKS_fake_script() -- co.main.lua
 		else
 			miningState = 0
 			btn.Text = "Start"
-			player.character:WaitForChild("Humanoid").walkspeed = 16
-			
 		end
 	end
 	
-	-- <!-- UI logic --!> --
 	main.Draggable = true
 	main.Active = true
 	main.Selectable = true
 	
-	---------------------------------
-	---------------------------------
 	task.wait(2)
     print("BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1]")
 	tit.Text = "babft candy autofarm"
@@ -161,6 +157,6 @@ local function WGCZKS_fake_script() -- co.main.lua
 	btn.MouseButton1Click:Connect(function()
 		mining()
 	end)
-	
 end
 coroutine.wrap(WGCZKS_fake_script)()
+
