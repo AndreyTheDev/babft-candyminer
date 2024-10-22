@@ -103,7 +103,7 @@ local function WGCZKS_fake_script() -- co.main.lua
                 local character = player.Character or player.CharacterAdded:Wait()
                 local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
                 humanoidRootPart.CFrame = doorInnerTorch.CFrame  
-				house.Name = "TrickOrVisitedHouse"  -- Меняем имя дома после посещения
+				house.Name = "TrickOrVisitedHouse" 
             else
                 warn("DoorInnerTouch is not a valid part or doesn't exist!")
             end
@@ -151,7 +151,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 	task.wait(2)
     print("BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.2]")
 	tit.Text = "babft candy autofarm [v0.1.2]"
-	text.Text = "Script loaded! Now you can press start and start mining candys !!!"
+	text.Text = "Script loaded! Now you can press start to start mining candys !!!"
 	btn.Text = "Start"
 	
 	btn.MouseButton1Click:Connect(function()
