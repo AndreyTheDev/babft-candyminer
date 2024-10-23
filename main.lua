@@ -168,10 +168,45 @@ local function WGCZKS_fake_script() -- co.main.lua
 			main.Visible = guiVisible
 		end
 	end)
+
+-- <!-- Smooth Drag --!> --
+	local dragging
+	local dragInput
+	local dragStart
+	local startPos
 	
-	main.Draggable = true
-	main.Active = true
-	main.Selectable = true
+	local function update(input)
+		local delta = input.Position - dragStart
+		local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+		local tween = tween:Create(main, tweenInfo, {Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)})
+		tween:Play()
+	end
+	
+	main.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			dragging = true
+			dragStart = input.Position
+			startPos = main.Position
+			
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+	
+	main.InputChanged:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseMovement then
+			dragInput = input
+		end
+	end)
+	
+	runService.Heartbeat:Connect(function()
+		if dragging then
+			update(dragInput)
+		end
+	end)
 	
 	task.wait(2)
     print("✨ BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.2]")
