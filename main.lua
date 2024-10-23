@@ -97,13 +97,20 @@ local function WGCZKS_fake_script() -- co.main.lua
 	local miningState = 0
 	local guiVisible = true
 	
-	-- Уведомление при загрузке
 	local NotificationBindable = Instance.new("BindableFunction")
 	game.StarterGui:SetCore("SendNotification", {
-		Title = "Babft candy autofarm",
-		Text = "Press HOME to hide the UI",
-		Duration = 5,
+		Title = "✨ Babft candy autofarm",
+		Text = "Press HOME to hide/show the UI",
+		Duration = 10,
 		Callback = NotificationBindable;
+	})
+
+    local NotificationBindable1 = Instance.new("BindableFunction")
+	game.StarterGui:SetCore("SendNotification", {
+		Title = ":3",
+		Text = "Script made by AndreyTheDev! ✨",
+		Duration = 5,
+		Callback = NotificationBindable1;
 	})
 
 	function teleportToHouse(house)
@@ -169,7 +176,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 	task.wait(2)
     print("✨ BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.2]")
 	tit.Text = "babft candy autofarm [v0.1.2]"
-	text.Text = "Script loaded! Now you can press start to start mining candys !!!"
+	text.Text = "🎉 Script loaded! Now you can press start to start mining candys !!! "
 	btn.Text = "Start"
 	
 	btn.MouseButton1Click:Connect(function()
