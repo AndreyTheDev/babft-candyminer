@@ -123,7 +123,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 	game.StarterGui:SetCore("SendNotification", {
 		Title = ":3",
 		Text = "Script made by AndreyTheDev! ✨",
-		Duration = 5,
+		Duration = 15,
 		Callback = NotificationBindable1;
 	})
 
@@ -134,7 +134,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 			if doorInnerTorch and doorInnerTorch:IsA("BasePart") then  
 				local character = player.Character or player.CharacterAdded:Wait()
 				local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-				humanoidRootPart.CFrame = doorInnerTorch.CFrame  
+                humanoidRootPart.CFrame = doorInnerTorch.CFrame  
 				house.Name = "TrickOrVisitedHouse" 
 			else
 				warn("DoorInnerTouch is not a valid part or doesn't exist!")
@@ -150,7 +150,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 			for _, house in ipairs(houses:GetChildren()) do
 				if house.Name == "TrickOrTreatHouse" then
 					teleportToHouse(house)
-					task.wait(2) 
+					task.wait(1) 
 				end
 			end
 		else
@@ -159,6 +159,14 @@ local function WGCZKS_fake_script() -- co.main.lua
 	end
 	
 	function mininggg()
+        local NotificationBindableStart = Instance.new("BindableFunction")
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "✨ Babft candy autofarm",
+			Text = "Mining started! 💎",
+			Duration = 3,
+			Callback = NotificationBindableStart;
+		})
+        
 		while miningState == 1 do
 			findAndTeleport()
 			task.wait(2) 
@@ -170,20 +178,15 @@ local function WGCZKS_fake_script() -- co.main.lua
 			miningState = 1
 			btn.Text = "Stop"
 			mininggg()
-			game.StarterGui:SetCore("SendNotification", {
-				Title = "✨ Babft candy autofarm",
-				Text = "Mining started! 💎",
-				Duration = 3,
-				Callback = NotificationBindable;
-			})
 		else
 			miningState = 0
 			btn.Text = "Start"
+            local NotificationBindableStop = Instance.new("BindableFunction")
 			game.StarterGui:SetCore("SendNotification", {
 				Title = "✨ Babft candy autofarm",
 				Text = "Mining stopped! 🛑",
 				Duration = 3,
-				Callback = NotificationBindable;
+				Callback = NotificationBindableStop;
 			})
 		end
 	end
