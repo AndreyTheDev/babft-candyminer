@@ -209,8 +209,8 @@ local function WGCZKS_fake_script() -- co.main.lua
 	end)
 	
 	task.wait(2)
-    print("✨ BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.2]")
-	tit.Text = "babft candy autofarm [v0.1.2]"
+    print("✨ BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.4]")
+	tit.Text = "babft candy autofarm [v0.1.4]"
 	text.Text = "🎉 Script loaded! Now you can press start to start mining candys !!! "
 	btn.Text = "Start"
 	
