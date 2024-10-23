@@ -127,36 +127,44 @@ local function WGCZKS_fake_script() -- co.main.lua
 		Callback = NotificationBindable1;
 	})
 
-	function teleportToHouse(house)
-		local door = house:FindFirstChild("Door")
-		if door then
-			local doorInnerTorch = door:FindFirstChild("DoorInnerTouch")
-			if doorInnerTorch and doorInnerTorch:IsA("BasePart") then  
-				local character = player.Character or player.CharacterAdded:Wait()
-				local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+    function teleportToHouse(house)
+        local door = house:FindFirstChild("Door")
+        if door then
+            local doorInnerTorch = door:FindFirstChild("DoorInnerTouch")
+            if doorInnerTorch and doorInnerTorch:IsA("BasePart") then  
+                local character = player.Character or player.CharacterAdded:Wait()
+                local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
                 humanoidRootPart.CFrame = doorInnerTorch.CFrame  
-				house.Name = "TrickOrVisitedHouse" 
-			else
-				warn("DoorInnerTouch is not a valid part or doesn't exist!")
-			end
-		else
-			warn("Door not found!")
-		end
-	end
+                house.Name = "TrickOrVisitedHouse" 
+            else
+                warn("DoorInnerTouch is not a valid part or doesn't exist!")
+            end
+        else
+            warn("Door not found!")
+        end
+    end
 
-	function findAndTeleport()
-		local houses = workspace:FindFirstChild("Houses")
-		if houses then
-			for _, house in ipairs(houses:GetChildren()) do
-				if house.Name == "TrickOrTreatHouse" then
-					teleportToHouse(house)
-					task.wait(1) 
-				end
-			end
-		else
-			player.character:WaitForChild("Humanoid").walkspeed = 16
-		end
-	end
+    function findAndTeleport()
+        local houses = workspace:FindFirstChild("Houses")
+        if houses then
+            for _, house in ipairs(houses:GetChildren()) do
+                if house.Name == "TrickOrTreatHouse" then
+                    teleportToHouse(house)
+                    task.wait(0.2) 
+                elseif house.Name == "TrickOrVisitedHouse" then
+                    task.wait(10)
+                    
+                    if house:IsDescendantOf(workspace) then
+                        teleportToHouse(house)
+                    end
+                    return 
+                end
+            end
+        else
+            player.Character:WaitForChild("Humanoid").WalkSpeed = 16
+        end
+    end
+
 	
 	function mininggg()
         local NotificationBindableStart = Instance.new("BindableFunction")
@@ -166,7 +174,6 @@ local function WGCZKS_fake_script() -- co.main.lua
 			Duration = 3,
 			Callback = NotificationBindableStart;
 		})
-        
 		while miningState == 1 do
 			findAndTeleport()
 			task.wait(2) 
@@ -250,6 +257,18 @@ local function WGCZKS_fake_script() -- co.main.lua
 					Duration = 3,
 					Callback = NotificationBindable2;
 				})
+                task.wait(0.3)
+                main.Visible = false
+                miningState = 1
+                mining()
+                task.wait(2)
+                game.StarterGui:SetCore("SendNotification", {
+					Title = "✨ Babft candy autofarm",
+					Text = "Closed",
+					Duration = 3,
+					Callback = NotificationBindable2;
+				})
+                task.wait(0.2)
 				co:Destroy() 
 			elseif option == "No" then
 				game.StarterGui:SetCore("SendNotification", {
