@@ -1,6 +1,3 @@
--- Gui to Lua
--- Version: 3.2
-
 -- Instances:
 
 local co = Instance.new("ScreenGui")
@@ -11,6 +8,7 @@ local btn = Instance.new("TextButton")
 local UICorner = Instance.new("UICorner")
 local ee = Instance.new("Frame")
 local UICorner_2 = Instance.new("UICorner")
+local closeBtn = Instance.new("TextButton") -- Добавляем кнопку крестика
 
 -- Properties:
 
@@ -25,6 +23,7 @@ main.BorderColor3 = Color3.fromRGB(27, 42, 53)
 main.BorderSizePixel = 0
 main.Position = UDim2.new(0.30842793, 0, 0.304961115, 0)
 main.Size = UDim2.new(0, 401, 0, 229)
+main.Selectable = true
 
 title.Name = "title"
 title.Parent = main
@@ -78,6 +77,20 @@ ee.Size = UDim2.new(0, 360, 0, 0)
 
 UICorner_2.Parent = main
 
+closeBtn.Name = "closeBtn"
+closeBtn.Parent = main
+closeBtn.BackgroundColor3 = Color3.fromRGB(255, 255, 255) 
+closeBtn.BackgroundTransparency = 1
+closeBtn.Position = UDim2.new(0.899999917, 0, 0, 2)
+closeBtn.Size = UDim2.new(0, 35, 0, 35)
+closeBtn.Font = Enum.Font.SourceSans
+closeBtn.Text = "×" 
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255) 
+closeBtn.TextSize = 20.000
+closeBtn.TextWrapped = true
+closeBtn.TextScaled = true
+
+
 -- Scripts:
 
 local function WGCZKS_fake_script() -- co.main.lua 
@@ -92,6 +105,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 	local btn = main.btn
 	local tit = main.title
 	local text = main.yes
+	local closeBtn = main.closeBtn
 	
 	local player = players.LocalPlayer
 	local miningState = 0
@@ -181,43 +195,77 @@ local function WGCZKS_fake_script() -- co.main.lua
 		end
 	end)
 
--- <!-- Smooth Drag --!> --
-	local dragging
-	local dragInput
-	local dragStart
-	local startPos
-	
-	local function update(input)
-		local delta = input.Position - dragStart
-		local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-		local tween = tween:Create(main, tweenInfo, {Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)})
-		tween:Play()
-	end
-	
-	main.InputBegan:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseButton1 then
-			dragging = true
-			dragStart = input.Position
-			startPos = main.Position
-			
-			input.Changed:Connect(function()
-				if input.UserInputState == Enum.UserInputState.End then
-					dragging = false
-				end
-			end)
+    -- <!-- Smooth Drag --!> --
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+        local tween = game:GetService("TweenService"):Create(main, tweenInfo, {
+            Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        })
+        tween:Play()
+    end
+
+    main.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = main.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    main.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if dragging and dragInput then
+            update(dragInput)
+        end
+    end)
+
+	closeBtn.MouseButton1Click:Connect(function()
+		local NotificationBindable2 = Instance.new("BindableFunction")
+		
+		NotificationBindable2.OnInvoke = function(option)
+			if option == "Yes" then
+				game.StarterGui:SetCore("SendNotification", {
+					Title = "✨ Babft candy autofarm",
+					Text = "Closing...",
+					Duration = 3,
+					Callback = NotificationBindable2;
+				})
+				co:Destroy() -- Закрыть GUI
+			elseif option == "No" then
+				game.StarterGui:SetCore("SendNotification", {
+					Title = "✨ Babft candy autofarm",
+					Text = "ok",
+					Duration = 3,
+					Callback = NotificationBindable2;
+				})
+			end
 		end
-	end)
-	
-	main.InputChanged:Connect(function(input)
-		if input.UserInputType == Enum.UserInputType.MouseMovement then
-			dragInput = input
-		end
-	end)
-	
-	runService.Heartbeat:Connect(function()
-		if dragging then
-			update(dragInput)
-		end
+		
+		game.StarterGui:SetCore("SendNotification", {
+			Title = "✨ Babft candy autofarm",
+			Text = "Are you sure?",
+			Duration = 10,
+			Callback = NotificationBindable2,
+			Button1 = "Yes",
+			Button2 = "No"
+		})
 	end)
 	
 	task.wait(2)
@@ -226,8 +274,6 @@ local function WGCZKS_fake_script() -- co.main.lua
 	text.Text = "🎉 Script loaded! Now you can press start to start mining candys !!! "
 	btn.Text = "Start"
 	
-	btn.MouseButton1Click:Connect(function()
-		mining()
-	end)
+	btn.MouseButton1Click:Connect(mining)
 end
 coroutine.wrap(WGCZKS_fake_script)()
