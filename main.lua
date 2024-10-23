@@ -156,9 +156,21 @@ local function WGCZKS_fake_script() -- co.main.lua
 			miningState = 1
 			btn.Text = "Stop"
 			mininggg()
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "✨ Babft candy autofarm",
+				Text = "Mining started! 💎",
+				Duration = 3,
+				Callback = NotificationBindable;
+			})
 		else
 			miningState = 0
 			btn.Text = "Start"
+			game.StarterGui:SetCore("SendNotification", {
+				Title = "✨ Babft candy autofarm",
+				Text = "Mining stopped! 🛑",
+				Duration = 3,
+				Callback = NotificationBindable;
+			})
 		end
 	end
 	
