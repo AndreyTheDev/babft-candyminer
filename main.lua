@@ -8,7 +8,7 @@ local btn = Instance.new("TextButton")
 local UICorner = Instance.new("UICorner")
 local ee = Instance.new("Frame")
 local UICorner_2 = Instance.new("UICorner")
-local closeBtn = Instance.new("TextButton") -- Добавляем кнопку крестика
+local closeBtn = Instance.new("TextButton") 
 
 -- Properties:
 
@@ -247,7 +247,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 					Duration = 3,
 					Callback = NotificationBindable2;
 				})
-				co:Destroy() -- Закрыть GUI
+				co:Destroy() 
 			elseif option == "No" then
 				game.StarterGui:SetCore("SendNotification", {
 					Title = "✨ Babft candy autofarm",
