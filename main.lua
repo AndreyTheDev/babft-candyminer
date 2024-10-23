@@ -12,7 +12,7 @@ local UICorner = Instance.new("UICorner")
 local ee = Instance.new("Frame")
 local UICorner_2 = Instance.new("UICorner")
 
---Properties:
+-- Properties:
 
 co.Name = "co"
 co.Parent = game:GetService("CoreGui")
@@ -86,6 +86,7 @@ local function WGCZKS_fake_script() -- co.main.lua
 	local tween = game:GetService("TweenService")
 	local players = game:GetService("Players")
 	local runService = game:GetService("RunService")
+	local userInput = game:GetService("UserInputService")
 	
 	local main = script.Parent.main
 	local btn = main.btn
@@ -94,23 +95,33 @@ local function WGCZKS_fake_script() -- co.main.lua
 	
 	local player = players.LocalPlayer
 	local miningState = 0
+	local guiVisible = true
 	
-    function teleportToHouse(house)
-        local door = house:FindFirstChild("Door")
-        if door then
-            local doorInnerTorch = door:FindFirstChild("DoorInnerTouch")
-            if doorInnerTorch and doorInnerTorch:IsA("BasePart") then  
-                local character = player.Character or player.CharacterAdded:Wait()
-                local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
-                humanoidRootPart.CFrame = doorInnerTorch.CFrame  
+	-- Уведомление при загрузке
+	local NotificationBindable = Instance.new("BindableFunction")
+	game.StarterGui:SetCore("SendNotification", {
+		Title = "Babft candy autofarm",
+		Text = "Press HOME to hide the UI",
+		Duration = 5,
+		Callback = NotificationBindable;
+	})
+
+	function teleportToHouse(house)
+		local door = house:FindFirstChild("Door")
+		if door then
+			local doorInnerTorch = door:FindFirstChild("DoorInnerTouch")
+			if doorInnerTorch and doorInnerTorch:IsA("BasePart") then  
+				local character = player.Character or player.CharacterAdded:Wait()
+				local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+				humanoidRootPart.CFrame = doorInnerTorch.CFrame  
 				house.Name = "TrickOrVisitedHouse" 
-            else
-                warn("DoorInnerTouch is not a valid part or doesn't exist!")
-            end
-        else
-            warn("Door not found!")
-        end
-    end
+			else
+				warn("DoorInnerTouch is not a valid part or doesn't exist!")
+			end
+		else
+			warn("Door not found!")
+		end
+	end
 
 	function findAndTeleport()
 		local houses = workspace:FindFirstChild("Houses")
@@ -121,8 +132,8 @@ local function WGCZKS_fake_script() -- co.main.lua
 					task.wait(2) 
 				end
 			end
-        else
-            player.character:WaitForChild("Humanoid").walkspeed = 16
+		else
+			player.character:WaitForChild("Humanoid").walkspeed = 16
 		end
 	end
 	
@@ -144,12 +155,19 @@ local function WGCZKS_fake_script() -- co.main.lua
 		end
 	end
 	
+	userInput.InputBegan:Connect(function(input)
+		if input.KeyCode == Enum.KeyCode.Home then
+			guiVisible = not guiVisible
+			main.Visible = guiVisible
+		end
+	end)
+	
 	main.Draggable = true
 	main.Active = true
 	main.Selectable = true
 	
 	task.wait(2)
-    print("BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.2]")
+    print("✨ BABFT CANDY AUTOFARM BY ANDREYTHEDEV [v0.1.2]")
 	tit.Text = "babft candy autofarm [v0.1.2]"
 	text.Text = "Script loaded! Now you can press start to start mining candys !!!"
 	btn.Text = "Start"
@@ -159,4 +177,3 @@ local function WGCZKS_fake_script() -- co.main.lua
 	end)
 end
 coroutine.wrap(WGCZKS_fake_script)()
-
